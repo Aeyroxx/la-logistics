@@ -1,0 +1,36 @@
+# Git Commands for Adding Coolify Files to Repository
+
+# 1. Check current status
+git status
+
+# 2. Add all new deployment files
+git add Dockerfile
+git add docker-compose.yml
+git add .dockerignore
+git add .coolify
+git add COOLIFY-DEPLOYMENT.md
+git add setup-coolify.sh
+git add DEPLOYMENT.md
+git add next.config.js
+
+# 3. Commit the changes
+git commit -m "Add Coolify deployment configuration
+
+- Add Dockerfile for multi-stage production build
+- Add docker-compose.yml for service separation  
+- Add .dockerignore for optimized builds
+- Add COOLIFY-DEPLOYMENT.md with step-by-step guide
+- Add .coolify configuration file
+- Add setup-coolify.sh verification script
+- Update DEPLOYMENT.md with Coolify section
+- Update next.config.js for production optimization
+
+Ready for Coolify deployment with automatic SSL and monitoring."
+
+# 4. Push to your repository
+git push origin main
+
+# Alternative: Add all files at once
+# git add .
+# git commit -m "Add Coolify deployment configuration"
+# git push origin main

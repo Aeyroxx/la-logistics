@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  laa-backend:
+    build: .
+    command: node backend/server.js
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET:-your-default-jwt-secret-change-in-production}
+      - PORT=3003
+      - FRONTEND_PORT=3000
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000}
+    volumes:
+      - laa_uploads:/app/backend/uploads
+      - laa_database:/app/backend
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3003/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - laa-network
+
+  laa-frontend:
+    build: .
+    command: npm start
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:3003}
+    depends_on:
+      laa-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - laa-network
+
+volumes:
+  laa_uploads:
+    driver: local
+  laa_database:
+    driver: local
+
+networks:
+  laa-network:
+    driver: bridge

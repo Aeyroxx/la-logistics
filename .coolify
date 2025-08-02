@@ -1,0 +1,40 @@
+# Coolify Configuration for L&A Logistic Services
+# This file helps Coolify understand your application structure
+
+# Application Type: Docker
+# Build Method: Dockerfile
+# Port: 3000 (Frontend)
+# Additional Ports: 3003 (Backend API)
+
+# Required Environment Variables:
+NODE_ENV=production
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+FRONTEND_PORT=3000
+BACKEND_PORT=3003
+ALLOWED_ORIGINS=https://your-domain.com
+
+# Optional Environment Variables:
+NEXT_PUBLIC_API_URL=https://your-domain.com
+
+# Persistent Volumes:
+# /app/backend/uploads - For uploaded files (logos, profiles)
+# /app/backend/database.sqlite - For SQLite database
+
+# Health Check Endpoints:
+# Frontend: GET / (port 3000)
+# Backend: GET /api/health (port 3003)
+
+# Proxy Configuration:
+# Coolify will automatically handle SSL and reverse proxy
+# Frontend: / -> http://container:3000
+# Backend API: /api/* -> http://container:3003
+# Static Files: /uploads/* -> http://container:3003
+
+# Build Command: docker build -t laa-logistics .
+# Run Command: Handled by Dockerfile CMD
+
+# Notes for Coolify Setup:
+# 1. Set domain name for automatic SSL
+# 2. Configure environment variables in Coolify UI
+# 3. Enable persistent storage for uploads and database
+# 4. Monitor logs through Coolify dashboard
